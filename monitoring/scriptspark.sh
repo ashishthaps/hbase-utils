@@ -5,8 +5,12 @@ sudo sh /tmp/omsagent.x64.sh --upgrade
 if [[ $HOSTNAME == hn* ]];
 then
   sudo wget https://mohaeleastus2.blob.core.windows.net/oms/spark.headnode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/spark.headnode.conf
+  sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/yarn.headnode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/yarn.headnode.conf
+
 else
   sudo wget https://mohaeleastus2.blob.core.windows.net/oms/spark.workernode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/spark.workernode.conf
+  sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/yarn.workernode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/yarn.workernode.conf
+
 fi
 sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/filter_hdinsight.rb -O /opt/microsoft/omsagent/plugin/filter_hdinsight.rb
 sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/hdinsightmanifestreader.rb -O  /opt/microsoft/omsagent/bin/hdinsightmanifestreader.rb
