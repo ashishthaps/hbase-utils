@@ -41,8 +41,8 @@
                         "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]"
                     ],
                     "properties": {
-                        "Id": "HDindsightSpark",
-                        "Name": "HDindsightSpark",
+                        "Id": "HDInsight Spark",
+                        "Name": "HDInsight Spark",
                         "Author": "ashishth@microsoft.com",
                         "Source": "Local",
                         "Dashboard": [
