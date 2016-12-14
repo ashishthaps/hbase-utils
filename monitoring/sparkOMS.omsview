@@ -33,10 +33,10 @@
             "resources": [
                 {
                     "apiVersion": "2015-11-01-preview",
-                    "name": "HDindsightSpark",
+                    "name": "HDInsight Spark",
                     "type": "views",
                     "location": "[parameters('location')]",
-                    "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'),'/views/HDindsightSpark')]",
+                    "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'),'/views/HDInsight Spark')]",
                     "dependson": [
                         "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]"
                     ],
@@ -81,12 +81,12 @@
                                         "Query": "Type=metrics_resourcemanager_clustermetrics_CL |measure   max(NumActiveNMs_d)   by ClusterName_s",
                                         "HideGraph": false,
                                         "enableSparklines": true,
+                                        "operation": "Last Sample",
                                         "ColumnsTitle": {
                                             "Name": "Cluster",
                                             "Value": "Active Nodes"
                                         },
                                         "Color": "#0072c6",
-                                        "operation": "Last Sample",
                                         "thresholds": {
                                             "isEnabled": false,
                                             "values": [
@@ -116,52 +116,68 @@
                                 }
                             },
                             {
-                                "Id": "NotableQueriesBuilderBlade",
+                                "Id": "LineChartCalloutStackedBuilderBlade",
                                 "Type": "Blade",
                                 "Version": 0,
                                 "Configuration": {
                                     "General": {
-                                        "title": "Spark Logs",
-                                        "newGroup": false,
-                                        "preselectedFilters": "",
-                                        "renderMode": "grid"
+                                        "title": "",
+                                        "newGroup": false
                                     },
-                                    "queries": [
+                                    "charts": [
                                         {
-                                            "query": " (Type=log_sparkappsdrivers_CL)|select Message",
-                                            "displayName": "Spark App Driver Logs"
+                                            "Header": {
+                                                "Title": "Apps Pending",
+                                                "Subtitle": ""
+                                            },
+                                            "LineChart": {
+                                                "Query": "(Type=metrics_resourcemanager_queue_root_default_CL) |measure max(AppsPending_d) as AppsPending by ClusterName_s ",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                }
+                                            }
                                         },
                                         {
-                                            "query": "* (Type=log_sparkappsexecutors_CL) |select Message",
-                                            "displayName": "Spark App Executor Logs"
+                                            "Header": {
+                                                "Title": "Apps Failed",
+                                                "Subtitle": ""
+                                            },
+                                            "LineChart": {
+                                                "Query": "(Type=metrics_resourcemanager_queue_root_default_CL) |measure max(AppsFailed_d) as AppsFailed by ClusterName_s ",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                }
+                                            }
                                         },
                                         {
-                                            "query": "(Type=log_livy_CL) |select Message",
-                                            "displayName": "Livy logs"
-                                        },
-                                        {
-                                            "query": "* (Type=log_spark_CL)|select Message",
-                                            "displayName": "Spark logs"
-                                        },
-                                        {
-                                            "query": " (Type=log_timelineserver_CL)|select Message",
-                                            "displayName": "Yarn Timeline server logs"
-                                        },
-                                        {
-                                            "query": " (Type=log_nodemanager_CL) |select Message",
-                                            "displayName": "Yarn Node Manager logs"
-                                        },
-                                        {
-                                            "query": "\"WARN\" Type (Type=log_nodemanager_CL) |select Message ",
-                                            "displayName": "Spark logs with warning messages"
-                                        },
-                                        {
-                                            "query": "* (Type=log_jupyter_CL)|select Message",
-                                            "displayName": "Jupyter Logs"
-                                        },
-                                        {
-                                            "query": "* (Type=log_mrjobsummary_CL)",
-                                            "displayName": "Job summary logs"
+                                            "Header": {
+                                                "Title": "Apps Killed",
+                                                "Subtitle": ""
+                                            },
+                                            "LineChart": {
+                                                "Query": "(Type=metrics_resourcemanager_queue_root_default_CL) |measure max(AppsKilled_d) as AppsKilled by ClusterName_s ",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                }
+                                            }
                                         }
                                     ]
                                 }
@@ -229,6 +245,57 @@
                                                     "customLabel": ""
                                                 }
                                             }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "NotableQueriesBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "Spark Logs",
+                                        "newGroup": false,
+                                        "preselectedFilters": "",
+                                        "renderMode": "grid"
+                                    },
+                                    "queries": [
+                                        {
+                                            "query": " (Type=log_sparkappsdrivers_CL)|select Message",
+                                            "displayName": "Spark App Driver Logs"
+                                        },
+                                        {
+                                            "query": "* (Type=log_sparkappsexecutors_CL) |select Message",
+                                            "displayName": "Spark App Executor Logs"
+                                        },
+                                        {
+                                            "query": "(Type=log_livy_CL) |select Message",
+                                            "displayName": "Livy logs"
+                                        },
+                                        {
+                                            "query": "* (Type=log_spark_CL)|select Message",
+                                            "displayName": "Spark logs"
+                                        },
+                                        {
+                                            "query": " (Type=log_timelineserver_CL)|select Message",
+                                            "displayName": "Yarn Timeline server logs"
+                                        },
+                                        {
+                                            "query": " (Type=log_nodemanager_CL) |select Message",
+                                            "displayName": "Yarn Node Manager logs"
+                                        },
+                                        {
+                                            "query": "\"WARN\" Type (Type=log_nodemanager_CL) |select Message ",
+                                            "displayName": "Spark logs with warning messages"
+                                        },
+                                        {
+                                            "query": "* (Type=log_jupyter_CL)|select Message",
+                                            "displayName": "Jupyter Logs"
+                                        },
+                                        {
+                                            "query": "* (Type=log_mrjobsummary_CL)",
+                                            "displayName": "Job summary logs"
                                         }
                                     ]
                                 }
