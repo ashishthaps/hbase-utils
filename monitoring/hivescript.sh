@@ -6,7 +6,7 @@ if [[ $HOSTNAME == hn* ]];
 then
   sudo wget https://raw.githubusercontent.com/ashishthaps/hbase-utils/master/monitoring/spark.headnode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/spark.headnode.conf
   sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/yarn.headnode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/yarn.headnode.conf
-
+sudo wget https://raw.githubusercontent.com/ashishthaps/hbase-utils/master/monitoring/hive.headnode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/hive.headnode.conf
 else
   sudo wget https://raw.githubusercontent.com/ashishthaps/hbase-utils/master/monitoring/spark.workernode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/spark.workernode.conf
   sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/yarn.workernode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/yarn.workernode.conf
