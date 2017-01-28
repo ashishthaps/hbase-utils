@@ -3,15 +3,15 @@
   path /var/log/hive/hivemetastore.log
   pos_file /var/opt/microsoft/omsagent/state/hivelog.pos
   read_from_head true
-  tag oms.api.log_hive
+  tag oms.api.hivemetastore
   format none
 </source>
 
-<filter oms.api.log_hive>
+<filter oms.api.hivemetastore>
   type filter_hdinsight
 </filter>
 
-<match oms.api.log_hive>
+<match oms.api.hivemetastore>
     type out_oms_api
     log_level info
     num_threads 5
