@@ -1,5 +1,5 @@
 #!/bin/bash
-wget https://github.com/Microsoft/OMS-Agent-for-Linux/releases/download/OMSAgent-201610-v1.2.0-148/omsagent-1.2.0-148.universal.x64.sh -O /tmp/omsagent.x64.sh
+wget https://github.com/Microsoft/OMS-Agent-for-Linux/releases/download/OMSAgent-201702-v1.3.1-15/omsagent-1.3.1-15.universal.x64.sh -O /tmp/omsagent.x64.sh
 sudo sh /tmp/omsagent.x64.sh --upgrade
 if [[ $HOSTNAME == hn* ]];
 then
@@ -11,10 +11,7 @@ else
   sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/yarn.workernode.conf -O /etc/opt/microsoft/omsagent/conf/omsagent.d/yarn.workernode.conf
 
 fi
-sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/filter_hdinsight.rb -O /opt/microsoft/omsagent/plugin/filter_hdinsight.rb
-sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/hdinsightmanifestreader.rb -O  /opt/microsoft/omsagent/bin/hdinsightmanifestreader.rb
-sudo wget https://raw.githubusercontent.com/Azure/hbase-utils/master/monitoring/omsagent
-sudo cp omsagent /etc/sudoers.d/
-sudo sh ~/.bashrc
+wget https://raw.githubusercontent.com/duoxu/hbase-utils/master/monitoring/in_exec.patch
+sudo patch -p0 -N /opt/microsoft/omsagent/ruby/lib/ruby/gems/2.3.0/gems/fluentd-0.12.24/lib/fluent/plugin/in_exec.rb < in_exec.patch
 sudo sh -x /opt/microsoft/omsagent/bin/omsadmin.sh -w $1 -s $2
 sudo service omsagent restart
