@@ -14,4 +14,4 @@ fi
 wget https://raw.githubusercontent.com/duoxu/hbase-utils/master/monitoring/in_exec.patch
 sudo patch -p0 -N /opt/microsoft/omsagent/ruby/lib/ruby/gems/2.3.0/gems/fluentd-0.12.24/lib/fluent/plugin/in_exec.rb < in_exec.patch
 sudo sh -x /opt/microsoft/omsagent/bin/omsadmin.sh -w $1 -s $2
-sudo service omsagent restart
+sudo /opt/microsoft/omsagent/bin/service_control restart
