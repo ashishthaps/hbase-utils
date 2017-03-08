@@ -1,25 +1,23 @@
---- in_exec.rb	2017-01-19 19:53:26.089804477 +0000
-+++ in_exec.rb.new	2017-01-19 19:58:47.950920711 +0000
+--- /opt/microsoft/omsagent/ruby/lib/ruby/gems/2.3.0/gems/fluentd-0.12.24/lib/fluent/plugin/in_exec.rb  2017-03-03 21:35:15.000000000 +0000
++++ a.rb        2017-03-08 19:12:13.139259585 +0000
 @@ -131,6 +131,7 @@
- 
+
      def run
        @parser.call(@io)
 +      Process.waitpid(@io.pid) if !@io.nil?
      end
- 
+
      def run_periodic
-@@ -139,11 +140,12 @@
+@@ -139,11 +140,11 @@
          begin
            io = IO.popen(@command, "r")
            @parser.call(io)
 -          Process.waitpid(io.pid)
--          sleep @run_interval
          rescue
            log.error "exec failed to run or shutdown child process", error: $!.to_s, error_class: $!.class.to_s
            log.warn_backtrace $!.backtrace
-+        ensure
+         ensure
 +          Process.waitpid(io.pid) if !io.nil?
-+          sleep @run_interval
+           sleep @run_interval
          end
        end
-     end
