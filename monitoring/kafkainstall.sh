@@ -12,8 +12,7 @@ sudo apt-get update
 sudo apt-get -y install collectd collectd-utils
 
 # Download OMS agent to /tmp directory
-wget https://github.com/Microsoft/OMS-Agent-for-Linux/releases/download/OMSAgent_GA_v1.2.0-148/omsagent-1.2.0-148.universal.x64.sh -O /tmp/omsagent.x64.sh
-
+wget https://github.com/Microsoft/OMS-Agent-for-Linux/releases/download/OMSAgent-201702-v1.3.1-15/omsagent-1.3.1-15.universal.x64.sh  -O /tmp/omsagent.x64.sh
 echo 'Installing OMS with CollectD Integration'
 # Install OMS configured with CollectD
 sudo sh /tmp/omsagent.x64.sh -w $1 -s $2 --collectd --upgrade
